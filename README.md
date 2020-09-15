@@ -20,12 +20,12 @@ VTB的依赖工具、搭建步骤、环境配置、遇到的问题及解决办�
 
 ## 运行环境配置
 >>* VTR7.0编译时依赖一系列的包，torc工具编译时需要gcc、Boost和Subversion，yosys编译时需要clang和git，如下所示：
-        -- ubuntu-16.04.6-desktop-i386.iso (32位)
-        -- gcc 5.4.0 20160609 (Ubuntu 5.4.0-6ubuntu1~16.04.12)
-        -- clang version 3.8.0-2ubuntu4 (tags/RELEASE_380/final)
-        -- Subversion 1.9.3
-        -- boost-1.54.0
-        -- git 2.7.4
+        -- ubuntu-16.04.6-desktop-i386.iso (32位)  <br>
+        -- gcc 5.4.0 20160609 (Ubuntu 5.4.0-6ubuntu1~16.04.12)  <br>
+        -- clang version 3.8.0-2ubuntu4 (tags/RELEASE_380/final)  <br>
+        -- Subversion 1.9.3  <br>
+        -- boost-1.54.0  <br>
+        -- git 2.7.4  <br>
      
 >> 参考VTR8.0的手册，VTR运行需要配置如下包：
 （注意：VTR7.0的编译和运行其实只需要下述包中的几个，大部分可不必下载，如果需要节省内存，可以先不下载下述包，直接执行编译，然后根据报错时出现的提示下载所缺的包。）
