@@ -1,8 +1,10 @@
 # Verilog-to-Bitstream2.0
-在构建VTB的时候遇到的问题及解决办法
+构建VTB时的依赖工具、环境配置、遇到的问题及解决办法
 
-## 运行系统及依赖项版本
->* VTB基于`linux32位系统`运行，我们使用的虚拟机VMware运行linux系统，采用的版本为`Ubuntu16`，32位linux系统。<br>
+## VTB依赖的工具
+>* Torc-1.0 (下载地址：http://svn.code.sf.net/p/torc-isi/code/tags/torc-1.0)
+
+## 运行系统及依赖项版本 
 >* 安装依赖项<br>
 >>* 安装Subversion<br>
 ```Bash
