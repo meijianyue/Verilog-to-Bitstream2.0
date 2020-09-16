@@ -20,7 +20,9 @@ VTB的依赖工具、搭建步骤、环境配置、遇到的问题及解决办�
 >>* 5. 配置运行环境（见下文）
 >>* 6. 下载Xilinx ISE 14.7，必须要full license（安装时注意环境：ubuntu-32位，安装教程可自行百度）
 >>* 7. 配置环境变量，我们需要的只是ISE的xdl2ncd和bitgen等模块，且需要在命令行直接调用这些模块，因此需要配置环境变量：
+```Bash
         export PATH=$PATH:pathTo/Xilinx/14.7/ISE_DS/ISE/bin/lin  #pathTo由ISE的下载路径决定
+```        
 >>* 8. 在VTR7.0目录下执行重新执行`Makefile`文件，若运行结果如下图，则说明编译成功。
 
 ## 运行环境配置
@@ -82,16 +84,12 @@ VTB的依赖工具、搭建步骤、环境配置、遇到的问题及解决办�
     还是`inline`关键字的问题，将函数`Ace_ObjInfo`定义前面的`inline`去掉即可。  <br>
 
 >>>* 注意事项：vpr工具提供图形化界面，如果在编译后想要执行vtr流程并查看图形化界面，可修改 vpr/Makefile 文件中的参数：  <br>
-    ENABLE_GRAPHICS = true  <br>
+   ` ENABLE_GRAPHICS = true`  <br>
     
 ### VTB编译
     配置好VTB的依赖包和运行环境后，在 “VTR7.0” 根目录下执行 make，完成整个Verilog-to-Bitstream编译。以下给出编译过程中可能出现的错误以及解决方法。
 >> 打开终端，进入`VTR7.0`根目录，执行`make` <br>
 >> 可能出现的错误：  <br>
->>>* 缺少头文件`tcl.h`和`readline.h`，执行：<br>
-```Bash
-          sudo apt-get install tcl8.6-dev libreadline-dev 
-```
 >>>* 编译torc时报错： <br>
     1. 如果在执行“cd torc && svn cleanup && svn up”时报错："client version is old ..."（类似这样），是由于
 Subversion版本过低，需要更新至更高版本。  <br>
@@ -102,32 +100,36 @@ Subversion版本过低，需要更新至更高版本。  <br>
     （4）再次在“VTR7.0”根目录执行 make ，svn升级torc时会产生冲突，直接选择“(r)mark resolved”即可。原因是svn的锁机制，前面中断下载后，小部分中断前正在下载的文件夹会被锁住，我们并未找到它们并执行"svn clean up"，但是这不影响后续编译和运行  <br>
     
 >>>* 编译yosys时会报错：  <br>
-    1. 关于"tcl.h"的报错，需要下载"tcl8.6-dev"包  <br>
-    2. 关于"readline.h"的报错，需要下载“libreadline-dev”包  <br>
-    3. 有些.hpp文件报错：‘uint32_t/uint8_t/uint16_t’ has not been declared，在相应头文件里加上“#include <inttypes.h>”  <br>
-    4. “Flattening.cpp”报错：关于函数重定义，默认参数的错误，原因是c++中，在声明和定义含默认参数的函数时，声明、定义中只有一个能包含默认参数：  <br>
-    错误写法:  <br>  
+    1. 关于`tcl.h`的报错，需要下载`tcl8.6-dev`包  <br>
+    2. 关于`readline.h`的报错，需要下载`libreadline-dev`包  <br>
+    3. 有些.hpp文件报错：‘uint32_t/uint8_t/uint16_t’ has not been declared，在相应头文件里加上`#include <inttypes.h>`  <br>
+    4. `Flattening.cpp`报错：关于函数重定义，默认参数的错误，原因是c++中，在声明和定义含默认参数的函数时，声明、定义中只有一个能包含默认参数：  <br> 
 ```cpp
-        int add(int a, int b=10);  //函数声明   <br>
-        int add(int a, int b=10) {...} //函数定义  <br>
-```
-    正确写法:  
-```cpp
-        int add(int a, int b);  //函数声明  <br>  
-        int add(int a, int b=10) {...} //函数定义  <br>
-```
-    类似地，报错的函数的声明和定义中都有默认参数，找到其在Flattening.hpp头文件中的函数声明，去掉 ` =默认参数值`即可  <br>
+        //错误写法
+        int add(int a, int b=10);  //函数声明   
+        int add(int a, int b=10) {...} //函数定义  
+        //正确写法
+        int add(int a, int b);  //函数声明   
+        int add(int a, int b=10) {...} //函数定义 
+```      
+>>>* 报错的函数的声明和定义中都有默认参数，找到其在Flattening.hpp头文件中的函数声明，去掉 ` =默认参数值`即可  <br>
     5. 报错：`torc/src/torc/generic/edif/Decompiler.cpp:37:13: error: ‘std::__cxx11::string {anonymous}::trimLeading(const string&)’ defined but not used [-Werror=unused-function]` , 删除文件`/torc/src/torc/Makefile.targets`中第59行: `-Werror \`即可。这里只是某个函数定义了却未使用的警告，因为有`-Werror`，所有警告被当作错误，故去掉即可。  <br>
     
+>>>* 提示`.o`文件中函数出现未定义引用，是由于之前编译过程中产生的`.o`和`.d`文件在后面进行调用时出现错误导致的。哪个文件目录下报错，就在哪个目录下执行下列命令删除`.o`和`.d`文件，重新执行编译。
+```Bash 
+          find . -name "*.o" | xargs rm -rfv
+
+          find . -name "*.d" | xargs rm -rfv
+```
     
 注意：如果clang或者其他依赖包的版本与ubuntu16的默认版本不同，可能会报许多奇怪的错误。可以慢慢找解决方案，最好还是保持版本一致。 <br>
 
 >>>* 编译Xilinx ISE提供的bit流生成模块时报错  <br>
-    1. 第一种错误是找不到"partgen"的路径，这就是前面搭建步骤中最后一步环境变量有问题，需要正确配置  <br>
-    2. 第二种错误：Can't locate File/Which.pm in @INC (you may need to install the File::Which module) ，执行命令"cpan File::Which"安装即可  <br>
+    1. 第一种错误是找不到`partgen`的路径，这就是前面搭建步骤中最后一步环境变量有问题，需要正确配置  <br>
+    2. 第二种错误：Can't locate File/Which.pm in @INC (you may need to install the File::Which module) ，执行命令`cpan File::Which`安装即可  <br>
 
 
-到这里整个编译就完成了。我们可以测试一下VTB能否从.v文件顺利生成.bit文件，新建一个test文件夹，在终端进入该文件夹后执行命令：  <br>
+编译完成后，可以测试一下VTB能否从`.v`文件顺利生成`.bit`文件，新建一个`test`文件夹，在终端进入该文件夹后执行命令：  <br>
 ```Bash
     $VTR_ROOT/vtr_flow/scripts/run_vtr_flow.pl $VTR_ROOT/vtr_flow/benchmarks/verilog/mkPktMerge.v \                
     $VTR_ROOT/vtr_flow/arch/xilinx/xc6vlx240tff1156.xml
