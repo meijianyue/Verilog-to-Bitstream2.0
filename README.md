@@ -2,21 +2,26 @@
 VTB的依赖工具、搭建步骤、环境配置、遇到的问题及解决办法
 
 ## VTB依赖的工具
->* VTR 7.0 
->* vtr-to-bitstream_v2.1.patch (在VTR文件中包含)
+>* VTR 7.0 (下载地址：https://github.com/verilog-to-routing/vtr-verilog-to-routing/releases/tag/vtr_v7)
+>* vtr-to-bitstream_v2.1.patch (下载地址：https://github.com/eddiehung/eddiehung.github.io/releases/tag/vtb_v2.1) 
 >* Torc-1.0 (下载地址：http://svn.code.sf.net/p/torc-isi/code/tags/torc-1.0)  #由于torc比较大，所以没有上传文件。
->* Yosys-0.9
+>* Yosys-0.9 (下载地址：http://www.clifford.at/yosys/download.html)
+>* abc (下载地址：https://github.com/berkeley-abc/abc)
 >* Xilinx ISE 14.7 for Linux (官网下载:https://www.xilinx.com/support/download/index.html/content/xilinx/en/downloadNav/vivado-design-tools/archive-ise.html)
 
 ## 搭建步骤：
->>* 1. 下载VTR 7.0，在进行后续步骤之前先编译试试，编译通过后再进行下一步。（ make 时出现的错误后面会详细介绍，如果下载的本工程下的VTR可忽略1,2步）
->>* 2. 下载补丁vtr-to-bitstream_v2.1.patch，放在VTR7.0目录下（指VTR7.0文件夹下，后同），执行命令：patch -p1 < vtr-to-bitstream_v2.1.patch
->>* 3. 将torc-1.0和yosys-yosys-0.9放入VTR7.0目录下，分别重命名为"torc"和"yosys"
->>* 4. 配置运行环境（见下文）
->>* 5. 下载Xilinx ISE 14.7，必须要full license（安装时注意环境：ubuntu-32位，安装教程可自行百度）
->>* 6. 配置环境变量，我们需要的只是ISE的xdl2ncd和bitgen等模块，且需要在命令行直接调用这些模块，因此需要配置环境变量：
+>>* 1. 下载`VTR 7.0`，在进行后续步骤之前先进行编译，编译通过后再进行下一步。（即在VTR7.0目录下执行`Makefile`文件， make 时出现的错误后面会详细介绍，如果下载的本工程下的VTR可忽略1,2步）
+>>* 2. 下载补丁`vtr-to-bitstream_v2.1.patch`，放在VTR7.0目录下（指VTR7.0文件夹下，后同），执行命令：
+```Bash
+                patch -p1 < vtr-to-bitstream_v2.1.patch
+```
+>>* 3. 将`torc-1.0`和`yosys-yosys-0.9`放入VTR7.0目录下，分别重命名为"torc"和"yosys"
+>>* 4. 将`abc`文件放入yosys目录下，并将yosys目录下Makefile文件中`ABCREV = 3709744`改为`ABCREV = default`。
+>>* 5. 配置运行环境（见下文）
+>>* 6. 下载Xilinx ISE 14.7，必须要full license（安装时注意环境：ubuntu-32位，安装教程可自行百度）
+>>* 7. 配置环境变量，我们需要的只是ISE的xdl2ncd和bitgen等模块，且需要在命令行直接调用这些模块，因此需要配置环境变量：
         export PATH=$PATH:pathTo/Xilinx/14.7/ISE_DS/ISE/bin/lin  #pathTo由ISE的下载路径决定
->>* 7. 在VTR7.0目录下执行 make 
+>>* 8. 在VTR7.0目录下执行重新执行`Makefile`文件
 
 ## 运行环境配置
 >>* VTR7.0编译时依赖一系列的包，torc工具编译时需要gcc、Boost和Subversion，yosys编译时需要clang和git，如下所示：
