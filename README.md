@@ -84,12 +84,12 @@ VTB的依赖工具、搭建步骤、环境配置、遇到的问题及解决办�
 >> 打开终端，进入`VTR7.0`根目录（此时实际上是VTB2.0），执行make <br>
 >> 可能出现的错误：  <br>
 >>>* 编译torc时报错： <br>
-    1. 如果在执行“cd torc && svn cleanup && svn up”时报错："client version is old ..."（类似如此，具体的报错记不清了），意思是
+    1. 如果在执行“cd torc && svn cleanup && svn up”时报错："client version is old ..."（类似这样），是由于
 Subversion版本过低，需要更新至更高版本。  <br>
     2. 如果在执行“cd torc && svn cleanup && svn up”时报错："...不是副本目录"，可采取如下做法： <br>
-    （1）打开torc文件，按“Ctrl+h”找到隐藏文件.svn，删除之  <br>
-    （2）在“VTR7.0”根目录下（即torc文件所在目录）执行命令：svn checkout http://svn.code.sf.net/p/torc-isi/code/tags/torc-1.0 torc   <br>
-    （3）此时会生成新的.svn文件，下载最新torc需要较长时间（因为我们之前下载的torc已是最新版本，.svn文件生成后可以直接中断下载“Ctrl+c”)  <br>
+    （1）打开torc文件，按找到隐藏文件.svn(ctrl+h可查看隐藏文件)，把他删除  <br>
+    （2）在“VTR7.0”根目录下(torc文件所在目录)执行命令：svn checkout http://svn.code.sf.net/p/torc-isi/code/tags/torc-1.0 torc   <br>
+    （3）此时会生成新的.svn文件，下载最新torc需要较长时间（因为我们之前下载的torc已是最新版本，.svn文件生成后可以直接中断下载(Ctrl+c))  <br>
     （4）再次在“VTR7.0”根目录执行 make ，svn升级torc时会产生冲突，直接选择“(r)mark resolved”即可。原因是svn的锁机制，前面中断下载后，小部分中断前正在下载的文件夹会被锁住，我们并未找到它们并执行"svn clean up"，但是这不影响后续编译和运行  <br>
     
 >>>* 编译yosys时会报错：  <br>
