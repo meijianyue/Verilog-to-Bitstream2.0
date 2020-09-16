@@ -1,4 +1,4 @@
-# VTR-to-Bitstream2.0
+# Verilog-to-Bitstream2.0
 VTB的依赖工具、搭建步骤、环境配置、遇到的问题及解决办法
 
 ## VTB依赖的工具
@@ -15,13 +15,13 @@ VTB的依赖工具、搭建步骤、环境配置、遇到的问题及解决办�
 ```Bash
                 patch -p1 < vtr-to-bitstream_v2.1.patch
 ```
->>* 3. 将`torc-1.0`和`yosys-yosys-0.9`放入VTR7.0目录下，分别重命名为"torc"和"yosys"
+>>* 3. 将`torc-1.0`和`yosys-yosys-0.9`放入VTR7.0目录下，分别重命名为`torc`和`yosys`
 >>* 4. 将`abc`文件放入yosys目录下，并将yosys目录下Makefile文件中`ABCREV = 3709744`改为`ABCREV = default`。
 >>* 5. 配置运行环境（见下文）
 >>* 6. 下载Xilinx ISE 14.7，必须要full license（安装时注意环境：ubuntu-32位，安装教程可自行百度）
 >>* 7. 配置环境变量，我们需要的只是ISE的xdl2ncd和bitgen等模块，且需要在命令行直接调用这些模块，因此需要配置环境变量：
         export PATH=$PATH:pathTo/Xilinx/14.7/ISE_DS/ISE/bin/lin  #pathTo由ISE的下载路径决定
->>* 8. 在VTR7.0目录下执行重新执行`Makefile`文件
+>>* 8. 在VTR7.0目录下执行重新执行`Makefile`文件，若运行结果如下图，则说明编译成功。
 
 ## 运行环境配置
 >>* VTR7.0编译时依赖一系列的包，torc工具编译时需要gcc、Boost和Subversion，yosys编译时需要clang和git，如下所示：
@@ -72,22 +72,26 @@ VTB的依赖工具、搭建步骤、环境配置、遇到的问题及解决办�
     前面搭建步骤中提到过，下载VTR7.0后需要预先编译，以预先解决部分编译问题。
 >> 打开终端，进入`VTR7.0`根目录，执行make <br>
 >> 可能会出现的错误： <br>
->>>* 编译odin时报错：对“ODIN/SRC/simulate_blif.c”文件中一些函数“未定义的引用”
-    这些函数定义时前面都有"inline"关键字，在gcc编译过程中，该关键字最好不要出现在.c文件的函数定义中，原因自行百度。因此，只需在该.c文件中找到所有报错的函数的定义，去掉"inline"关键字即可。 
+>>>* 编译odin时报错：对`ODIN/SRC/simulate_blif.c`文件中一些函数“未定义的引用”
+    这些函数定义时前面都有"inline"关键字，在gcc编译过程中，该关键字最好不要出现在.c文件的函数定义中，原因自行百度。因此，只需在该.c文件中找到所有报错的函数的定义，去掉`inlin`关键字即可。 
     
 >>>* 编译abc时报错：“src/misc/espresso/unate.c”文件中关于"restrict"的error  <br>
-    gcc 5.4.0版本编译时，restrict被识别为关键字，不能用作变量或者函数参数名。将所有“restrict”改为“_restrict”即可。  <br>
+    gcc 5.4.0版本编译时，`restrict`被识别为关键字，不能用作变量或者函数参数名。将所有`restrict`改为`_restrict`即可。  <br>
 
->>>* 编译ace2时报错：文件“ace2/ace.c”里的函数‘print_status’中，对‘Ace_ObjInfo’未定义的引用  <br>
-    还是"inline"关键字的问题，将函数“Ace_ObjInfo”定义前面的inline去掉即可。  <br>
+>>>* 编译ace2时报错：文件`ace2/ace.c`里的函数`print_status`中，对`Ace_ObjInfo`未定义的引用  <br>
+    还是`inline`关键字的问题，将函数`Ace_ObjInfo`定义前面的`inline`去掉即可。  <br>
 
 >>>* 注意事项：vpr工具提供图形化界面，如果在编译后想要执行vtr流程并查看图形化界面，可修改 vpr/Makefile 文件中的参数：  <br>
     ENABLE_GRAPHICS = true  <br>
     
 ### VTB编译
-    配置好VTB的依赖包和运行环境后，在 “VTR7.0” 根目录下执行 make，完成整个VTR-to-Bitstream的编译。期间会遇到诸多编译错误，对于因缺少某些依赖库而引起的错误，这里不多介绍，可以百度解决。本节仅对部分较难解决的错误给出解决方法。
->> 打开终端，进入`VTR7.0`根目录（此时实际上是VTB2.0），执行make <br>
+    配置好VTB的依赖包和运行环境后，在 “VTR7.0” 根目录下执行 make，完成整个Verilog-to-Bitstream编译。以下给出编译过程中可能出现的错误以及解决方法。
+>> 打开终端，进入`VTR7.0`根目录，执行`make` <br>
 >> 可能出现的错误：  <br>
+>>>* 缺少头文件`tcl.h`和`readline.h`，执行：<br>
+```Bash
+          sudo apt-get install tcl8.6-dev libreadline-dev 
+```
 >>>* 编译torc时报错： <br>
     1. 如果在执行“cd torc && svn cleanup && svn up”时报错："client version is old ..."（类似这样），是由于
 Subversion版本过低，需要更新至更高版本。  <br>
@@ -103,14 +107,18 @@ Subversion版本过低，需要更新至更高版本。  <br>
     3. 有些.hpp文件报错：‘uint32_t/uint8_t/uint16_t’ has not been declared，在相应头文件里加上“#include <inttypes.h>”  <br>
     4. “Flattening.cpp”报错：关于函数重定义，默认参数的错误，原因是c++中，在声明和定义含默认参数的函数时，声明、定义中只有一个能包含默认参数：  <br>
     错误写法:  <br>  
+```cpp
         int add(int a, int b=10);  //函数声明   <br>
         int add(int a, int b=10) {...} //函数定义  <br>
-    正确写法:  <br>
+```
+    正确写法:  
+```cpp
         int add(int a, int b);  //函数声明  <br>  
         int add(int a, int b=10) {...} //函数定义  <br>
-    类似地，报错的函数的声明和定义中都有默认参数，找到其在Flattening.hpp头文件中的函数声明，去掉 “ =默认参数值” 即可  <br>
-    5. 报错：torc/src/torc/generic/edif/Decompiler.cpp:37:13: error: ‘std::__cxx11::string {anonymous}::trimLeading(const string&)’ defined but not used [-Werror=unused-function] , 删除文件“/torc/src/torc/Makefile.targets”中第59行: "-Werror \"即可。这里只是某个函数定义了却未使用的警告，因为有“-Werror”，所有警告被当作错误，故去掉即可。  <br>
-    6. 关于"git clone"的报错，yosys编译时会从github上下载abc文件，若网速太慢会下不了，继而连接超时报错。建议用其他方法下载完毕后放入yosys文件，具体下载地址在yosys/Makefile中可以找到  <br>
+```
+    类似地，报错的函数的声明和定义中都有默认参数，找到其在Flattening.hpp头文件中的函数声明，去掉 ` =默认参数值`即可  <br>
+    5. 报错：`torc/src/torc/generic/edif/Decompiler.cpp:37:13: error: ‘std::__cxx11::string {anonymous}::trimLeading(const string&)’ defined but not used [-Werror=unused-function]` , 删除文件`/torc/src/torc/Makefile.targets`中第59行: `-Werror \`即可。这里只是某个函数定义了却未使用的警告，因为有`-Werror`，所有警告被当作错误，故去掉即可。  <br>
+    
     
 注意：如果clang或者其他依赖包的版本与ubuntu16的默认版本不同，可能会报许多奇怪的错误。可以慢慢找解决方案，最好还是保持版本一致。 <br>
 
