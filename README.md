@@ -7,10 +7,10 @@ VTB的依赖工具、搭建步骤、环境配置、遇到的问题及解决办�
 >* Torc-1.0 (下载地址：http://svn.code.sf.net/p/torc-isi/code/tags/torc-1.0)  #由于torc比较大，所以没有上传文件。
 >* Yosys-0.9 (下载地址：http://www.clifford.at/yosys/download.html)
 >* abc (下载地址：https://github.com/berkeley-abc/abc)
->* Xilinx ISE 14.7 for Linux (官网下载:https://www.xilinx.com/support/download/index.html/content/xilinx/en/downloadNav/vivado-design-tools/archive-ise.html)
+>* Xilinx ISE 14.7 for Linux (官网下载:https://www.xilinx.com/support/download/index.html/content/xilinx/en/downloadNav/vivado-design-tools/archive-ise.html) (文件中附有证书）
 
 ## 搭建步骤：
->>* 1. 下载`VTR 7.0`，在进行后续步骤之前先进行编译，编译通过后再进行下一步。（即在VTR7.0目录下执行`Makefile`文件， make 时出现的错误后面会详细介绍，如果下载的本工程下的VTR可忽略1,2步）
+>>* 1. 下载`VTR 7.0`，在进行后续步骤之前先进行编译，编译通过后再进行下一步。（即在VTR7.0目录下执行`Makefile`文件， make 时出现的错误后面会详细介绍，如果下载的本目录下的VTR可忽略1,2步）
 >>* 2. 下载补丁`vtr-to-bitstream_v2.1.patch`，放在VTR7.0目录下（指VTR7.0文件夹下，后同），执行命令：
 ```Bash
                 patch -p1 < vtr-to-bitstream_v2.1.patch
