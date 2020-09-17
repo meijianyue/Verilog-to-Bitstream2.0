@@ -23,8 +23,8 @@ VTB的依赖工具、搭建步骤、环境配置、遇到的问题及解决办�
 ```Bash
         export PATH=$PATH:pathTo/Xilinx/14.7/ISE_DS/ISE/bin/lin  #pathTo由ISE的下载路径决定
 ```        
->>* 8. 在VTR7.0目录下执行重新执行`Makefile`文件，若运行结果如下图，则说明编译成功。
-![](https://github.com/meijianyue/Verilog-to-Bitstream2.0/raw/master/Result.png)
+>>* 8. 在VTR7.0目录下执行重新执行`Makefile`文件，若运行结果如下图，则说明编译成功。<br>
+![image](https://github.com/meijianyue/Verilog-to-Bitstream2.0/blob/master/Result.png)
 
 ## 运行环境配置
 >>* VTR7.0编译时依赖一系列的包，torc工具编译时需要gcc、Boost和Subversion，yosys编译时需要clang和git，如下所示：
