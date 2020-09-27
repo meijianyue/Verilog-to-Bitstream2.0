@@ -143,7 +143,8 @@ Subversion版本过低，需要更新至更高版本。  <br>
 ```Bash
    -starting_stage odin -ending_stage bitstream  //参数设定
 ```
->* 初始阶段划分： `odin  abc  ace  prevpr  vpr  bitstream` 
->* 修改后： `odin  abc  ace  prevpr  ``pack  place  route (vpr)`` bitstream`
-> 方法：新增加了一个参数`"-vpr_stage   XXX"`如果命令行有该参数，则区分pack、place和route；如果命令行没有该参数，直接执行整个vpr流程。
+> 初始阶段划分： `odin  abc  ace  prevpr  vpr  bitstream` 
+> 修改后： `odin  abc  ace  prevpr "pack  place  route (vpr)" bitstream`
+> 方法：
+>* 新增加了一个参数`"-vpr_stage   XXX"`如果命令行有该参数，则区分pack、place和route；如果命令行没有该参数，直接执行整个vpr流程。
 
