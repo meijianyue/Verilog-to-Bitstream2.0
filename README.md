@@ -136,3 +136,15 @@ Subversion版本过低，需要更新至更高版本。  <br>
     $VTR_ROOT/vtr_flow/arch/xilinx/xc6vlx240tff1156.xml
     # $VTR_ROOT表示"VTR7.0"根目录
 ```
+
+### 分步执行VPR以及显示布局布线界面
+后面我们通过修改`run_vtr_flow.pl`文件，使`VPR`可以分步运行。
+      该脚本用于执行VTB流程，可通过设置参数控制执行阶段：
+./run_vtr_flow.pl ./verilog/mkPktMerge.v ./xilinx/xc6vlx240tff1156.xml -starting_stage odin -ending_stage bitstream
+
+初始阶段划分： odin  abc  ace  prevpr  vpr  bitstream 
+修改后： odin  abc  ace  prevpr  pack  place  route (vpr) bitstream 
+
+方式：新增加了一个参数 “-vpr_stage   XXX”
+如果命令行有该参数，则区分pack、place和route；如果命令行没有该参数，直接执行整个vpr流程。
+
