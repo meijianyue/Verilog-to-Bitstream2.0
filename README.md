@@ -143,11 +143,13 @@ Subversion版本过低，需要更新至更高版本。  <br>
 ```Bash
    -starting_stage odin -ending_stage bitstream  //参数设定
 ```
- 初始阶段划分： `odin  abc  ace  prevpr  vpr  bitstream` 
- 修改后： `odin  abc  ace  prevpr "pack  place  route (vpr)" bitstream`
+ 初始阶段划分： `odin  abc  ace  prevpr  vpr  bitstream` <br>
+ 修改后： `odin  abc  ace  prevpr "pack  place  route (vpr)" bitstream`<br>
+ <br>
  方法：
 * 新增加了一个参数`"-vpr_stage   XXX"`如果命令行有该参数，则区分pack、place和route；如果命令行没有该参数，直接执行整个vpr流程。
-### 显示布局布线的界面
-  删除`run_vtr_flow.pl`代码中的`--nodisp`参数，此参数指不展示界面，将他删除之后运行脚本，就会在布局布线阶段显示界面。
+#### 显示布局布线的界面
+  删除`run_vtr_flow.pl`代码中的`--nodisp`参数，此参数指不展示界面，将他删除之后运行脚本，就会在布局布线阶段显示界面。<br>
+  <br>
   除了删除参数外，在vpr/SRC/base文件夹下有个`draw.c`文件，其中有几个断言函数会阻止界面运行，位于代码的第528、548、1226、1300、1960、1966行，原因尚不得知。将其全部注释，然后重新编译vpr，界面即可正常运行。
 
