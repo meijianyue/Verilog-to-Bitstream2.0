@@ -28,12 +28,13 @@ VTB的依赖工具、搭建步骤、环境配置、遇到的问题及解决办�
 
 ## 运行环境配置
 * VTR7.0编译时依赖一系列的包，torc工具编译时需要gcc、Boost和Subversion，yosys编译时需要clang和git，如下所示：
-        -- ubuntu-16.04.6-desktop-i386.iso (32位)  <br>
-        -- gcc 5.4.0 20160609 (Ubuntu 5.4.0-6ubuntu1~16.04.12)  <br>
-        -- clang version 3.8.0-2ubuntu4 (tags/RELEASE_380/final)  <br>
-        -- Subversion 1.9.3  <br>
-        -- boost-1.54.0  <br>
+        -- ubuntu-18.04(64位)  <br>
+        -- gcc 4.8.5 && g++ 4.8.5(安装教程：https://www.jianshu.com/p/f66eed3a3a25)  <br>
+        -- clang version 3.9.1 (安装多个版本参考gcc安装) <br>
+        -- Subversion 1.9.7  <br>
+        -- boost-1.54.0 (安装教程：https://blog.csdn.net/this_capslock/article/details/47170313) <br>
         -- git 2.7.4  <br>
+         * 注意：如果clang或者其他依赖包的版本与以上给出的版本不同，可能会报许多奇怪的错误。可以慢慢找解决方案，最好还是保持版本一致。 <br>
      
 * 参考VTR8.0的手册，VTR运行需要配置如下包：
 （注意：VTR7.0的编译和运行其实只需要下述包中的几个，大部分可不必下载，如果需要节省内存，可以先不下载下述包，直接执行编译，然后根据报错时出现的提示下载所缺的包。）
@@ -122,8 +123,8 @@ Subversion版本过低，需要更新至更高版本。  <br>
 
           find . -name "*.d" | xargs rm -rfv
 ```
-    
- 注意：如果clang或者其他依赖包的版本与ubuntu16的默认版本不同，可能会报许多奇怪的错误。可以慢慢找解决方案，最好还是保持版本一致。 <br>
+* 工具代码本身并没有错误，如果在编译时出现代码错误的提示，先尝试把对应文件下编译生成的`.o`&`.d`文件删除，如果还是不行就重新安装`boost`或者更改`gcc`和`g++`和`clang`版本，与上面给出的版本保持一致。
+
 
 * 编译Xilinx ISE提供的bit流生成模块时报错  <br>
     1. 第一种错误是找不到`partgen`的路径，这就是前面搭建步骤中最后一步环境变量有问题，需要正确配置  <br>
