@@ -27,7 +27,7 @@ VTB的依赖工具、搭建步骤、环境配置、遇到的问题及解决办�
 ![image](https://github.com/meijianyue/Verilog-to-Bitstream2.0/blob/master/Result.png)
 
 ## 运行环境配置
-* VTR7.0编译时依赖一系列的包，torc工具编译时需要gcc、Boost和Subversion，yosys编译时需要clang和git，如下所示：
+* VTR7.0编译时依赖一系列的包，torc工具编译时需要gcc、Boost和Subversion，yosys编译时需要clang和git，如下所示：<br>
         -- ubuntu-18.04(64位)  <br>
         -- gcc 4.8.5 && g++ 4.8.5(安装教程：https://www.jianshu.com/p/f66eed3a3a25)  <br>
         -- clang version 3.9.1 (安装多个版本参考gcc安装) <br>
